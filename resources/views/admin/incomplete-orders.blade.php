@@ -1,12 +1,6 @@
 @extends('admin/adminlayout')
 
 @section('container')
-
-
-
-
-
-
 <div class="row ">
               <div class="col-12 grid-margin">
                 <div class="card">

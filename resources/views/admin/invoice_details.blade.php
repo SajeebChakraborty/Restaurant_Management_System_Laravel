@@ -76,6 +76,7 @@
                         <tbody>
 
                         @foreach($products as $product)
+                        @if($product->product_order=="yes")
                           <tr>
                            
                       
@@ -167,8 +168,9 @@
                         <input type="datetime-local" name="time" value="2022-07-28T19:30" class="form-control" id="exampleInputName1">
                       </div>
                  
-                    
+                      @if($user->usertype == 0)
                       <button type="submit" class="btn btn-primary me-2">Approve Order</button>
+                      @endif
                       <a href="{{  asset('/invoice/cancel-order/'.$product->invoice_no) }}" class="btn btn-danger">Cancel Order</a>
                     </form>
 
