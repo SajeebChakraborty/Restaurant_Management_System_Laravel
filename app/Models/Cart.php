@@ -11,4 +11,8 @@ class Cart extends Model
     protected $fillable = [
         'name', 'price', 'quantity', 'subtotal'
     ];
+    public function CartUser(){
+        return $this->belongsTo('App\Models\User', 'user_id', 'id');
+
+    }
 }

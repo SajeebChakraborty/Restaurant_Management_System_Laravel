@@ -1,154 +1,78 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Auth;
-
 use DB;
 use PDF;
 use Hash;
-
-
 use Session;
-
-
-
-
+use App\Models\Cart;
 class HomeController extends Controller
 {
     public function index(){
-
         $menu=DB::table('products')->where('catagory','regular')->get();
-
         $breakfast=DB::table('products')->where('catagory','special')->where('session',0)->get();
         $lunch=DB::table('products')->where('catagory','special')->where('session',1)->get();
         $dinner=DB::table('products')->where('catagory','special')->where('session',2)->get();
-
         $chefs=DB::table('chefs')->get();
-
-
         if(Auth::user())
         {
-
-            $cart_amount=DB::table('carts')->where('user_id',Auth::user()->id)->where('product_order','no')->count();
-
-
+          $cart_amount=DB::table('carts')->where('user_id',Auth::user()->id)->where('product_order','no')->count();
         }
         else
         {
-
-            $cart_amount=0;
-
+          $cart_amount=0;
         }
-
         $about_us=DB::table('about_us')->get();
         $banners=DB::table('banners')->get();
-
-
-
         return view("home",compact('menu','breakfast','lunch','dinner','chefs','cart_amount','about_us','banners'));
     }
 
     public function redirects(){
-
-
         if(!Auth::user())
         {
-
-            return redirect()->route('login');
-
-
+          return redirect()->route('login');
         }
-
-        
         $menu=DB::table('products')->where('catagory','regular')->get();
-
         $breakfast=DB::table('products')->where('catagory','special')->where('session',0)->get();
         $lunch=DB::table('products')->where('catagory','special')->where('session',1)->get();
         $dinner=DB::table('products')->where('catagory','special')->where('session',2)->get();
-
-
         $chefs=DB::table('chefs')->get();
-
-
         if(Auth::user())
         {
-
-            $cart_amount=DB::table('carts')->where('user_id',Auth::user()->id)->where('product_order','no')->count();
-
-
+        $cart_amount=DB::table('carts')->where('user_id',Auth::user()->id)->where('product_order','no')->count();
         }
         else
         {
-
-            $cart_amount=0;
-
+         $cart_amount=0;
         }
-
-      
-
         $about_us=DB::table('about_us')->get();
         $banners=DB::table('banners')->get();
-
-
         $usertype= Auth::user()->usertype;
         if($usertype!='0')
     	{
-
-            $pending_order=DB::table('carts')->where('product_order','yes')->groupBy('invoice_no')->count();
-
-            $processing_order=DB::table('carts')->where('product_order','approve')->groupBy('invoice_no')->count();
-
-            $cancel_order=DB::table('carts')->where('product_order','cancel')->groupBy('invoice_no')->count();
-
-            $complete_order=DB::table('carts')->where('product_order','delivery')->groupBy('invoice_no')->count();
-
-
+            $pending_order=DB::table('carts')->where('product_order','yes')->groupBy('invoice_no')->get();
+            $processing_order=DB::table('carts')->where('product_order','approve')->groupBy('invoice_no')->get();
+            $cancel_order=DB::table('carts')->where('product_order','cancel')->groupBy('invoice_no')->get();
+            $complete_order=DB::table('carts')->where('product_order','delivery')->groupBy('invoice_no')->get();
             $total=DB::table('carts')->sum('subtotal');
-
-
             $cash_on_payment=DB::table('carts')->where('pay_method','Cash On Delivery')->sum('subtotal');
-
-
             $online_payment=$total-$cash_on_payment;
-
-
-            $customer=DB::table('users')->where('usertype','0')->count();
-
-
-            $delivery_boy=DB::table('users')->where('usertype','2')->count();
-
-
-            $user=DB::table('users')->count();
-
-
-            $admin=$user-($customer + $delivery_boy);
-
-
+            $customer=DB::table('users')->where('usertype','0')->get();
+            $delivery_boy=DB::table('users')->where('usertype','2')->get();
+            $user=DB::table('users')->get();
+            $admin=($user->count())-($customer->count() + $delivery_boy->count());
             $rates=DB::table('rates')->get();
-
             $product=array();
-
-
             foreach($rates as $rate)
             {
-
-
                 $product[$rate->product_id]=0;
                 $voter[$rate->product_id]=0;
                 $per_rate[$rate->product_id]=0;
-
-
-
             }
-
-
-
             foreach($rates as $rate)
             {
-
 
                 $product[$rate->product_id]=$product[$rate->product_id]+ $rate->star_value;
 

@@ -12,7 +12,7 @@
                       <div class="row">
                         <div class="col-9">
                           <div class="d-flex align-items-center align-self-start">
-                            <h3 class="mb-0">Amount : {{  $pending_order }}</h3>
+                            <h3 class="mb-0">Amount : {{  $pending_order->count() }}</h3>
                             <p class="text-success ms-2 mb-0 font-weight-medium"></p>
                           </div>
                         </div>
@@ -32,7 +32,7 @@
                       <div class="row">
                         <div class="col-9">
                           <div class="d-flex align-items-center align-self-start">
-                            <h3 class="mb-0">Amount : {{ $processing_order }}</h3>
+                            <h3 class="mb-0">Amount : {{ $processing_order->count() }}</h3>
                             <p class="text-success ms-2 mb-0 font-weight-medium"></p>
                           </div>
                         </div>
@@ -52,7 +52,7 @@
                       <div class="row">
                         <div class="col-9">
                           <div class="d-flex align-items-center align-self-start">
-                            <h3 class="mb-0">Amount : {{  $cancel_order }}</h3>
+                            <h3 class="mb-0">Amount : {{  $cancel_order->count() }}</h3>
                             <p class="text-danger ms-2 mb-0 font-weight-medium"></p>
                           </div>
                         </div>
@@ -72,7 +72,7 @@
                       <div class="row">
                         <div class="col-9">
                           <div class="d-flex align-items-center align-self-start">
-                            <h3 class="mb-0">Amount : {{    $complete_order }}</h3>
+                            <h3 class="mb-0">Amount : {{ $complete_order->count() }}</h3>
                             <p class="text-success ms-2 mb-0 font-weight-medium"></p>
                           </div>
                         </div>
@@ -232,7 +232,7 @@
                       <div class="row">
                         <div class="col-8 col-sm-12 col-xl-8 my-auto">
                           <div class="d-flex d-sm-block d-md-flex align-items-center">
-                            <h2 class="mb-0">{{ $customer }}</h2>
+                            <h2 class="mb-0">{{ $customer->count() }}</h2>
                             <p class="text-success ms-2 mb-0 font-weight-medium"></p>
                           </div>
                           <h6 class="text-muted font-weight-normal"></h6>
@@ -251,7 +251,7 @@
                       <div class="row">
                         <div class="col-8 col-sm-12 col-xl-8 my-auto">
                           <div class="d-flex d-sm-block d-md-flex align-items-center">
-                            <h2 class="mb-0">{{      $delivery_boy }}</h2>
+                            <h2 class="mb-0">{{$delivery_boy->count() }}</h2>
                             <p class="text-success ms-2 mb-0 font-weight-medium"></p>
                           </div>
                           <h6 class="text-muted font-weight-normal"></h6>

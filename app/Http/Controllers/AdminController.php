@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\Cart;
+use App\Models\User;
 use DB;
 use Auth;
 use Hash;
@@ -100,83 +101,48 @@ class AdminController extends Controller
     }
     public function order_incomplete()
     {
-
-
-       // dd($orders);
-
-       $orders=DB::table('carts')->where('product_order','yes')
-       ->groupBy('invoice_no')
+          // dd($orders);
+       $orders=Cart::join('users','users.id','=','carts.user_id')->where('carts.product_order','yes')->where('users.usertype','0')
+       ->groupBy('carts.invoice_no')
        ->get();
-
-
+        
+      $adminOrders = Cart::join('users','users.id','=','carts.user_id')
+       ->where('carts.product_order','yes')
+       ->where('users.usertype','!=','0')->update(['carts.product_order'=>'approve']);
         return view('admin.incomplete-orders',compact('orders'));
-
-
 
     }
     public function order_complete()
     {
-
-
-       // dd($orders);
-
+         // dd($orders);
        $orders=DB::table('carts')->where('product_order','delivery')
        ->groupBy('invoice_no')
        ->get();
-
-
-        return view('admin.complete_orders',compact('orders'));
-
-
-
+       return view('admin.complete_orders',compact('orders'));
     }
     public function reservation()
     {
-
-        
         $reservations=DB::table('reservations')->get();
- 
- 
          return view('admin.reservations',compact('reservations'));
-
-
-
-
     }
     
     public function add_menu()
     {
-
-        return view('admin.add_menu');
-
+       return view('admin.add_menu');
     }
     public function add_chef()
     {
-
-
         return view('admin.add_chef');
-
-
     }
     public function coupon_show()
     {
-
         $coupons=DB::table('coupons')->get();
-
-
         return view('admin.coupons',compact('coupons'));
-
-
     }
     public function admin_show()
     {
-
         $admins=DB::table('users')->where('usertype','1')->orWhere('usertype','3')->get();
-
-
         return view('admin.admins',compact('admins'));
-
-
     }
     public function user_show()
     {
@@ -230,17 +196,11 @@ class AdminController extends Controller
     public function menu_add_process(Request $req)
     {
 
-
         if($req->price < 0)
         {
-
-            session()->flash('wrong','Negative Price value do not accept !');
+           session()->flash('wrong','Negative Price value do not accept !');
             return back();
-
-
         }
-
-
         $this->validate(request(),[
 
             'image'=>'mimes:jpeg,jpg,png',
@@ -273,8 +233,6 @@ class AdminController extends Controller
     public function chef_add_process(Request $req)
     {
 
-
-     
         $this->validate(request(),[
 
             'image'=>'mimes:jpeg,jpg,png',
