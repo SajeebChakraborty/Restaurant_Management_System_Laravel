@@ -4,6 +4,12 @@
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
+                @if(Request::is('user/profile'))
+ 
+                <a href="/" class="logo">
+                            <img width="100px" src="/assets/images/logo.png">
+                </a>
+                @endif
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">

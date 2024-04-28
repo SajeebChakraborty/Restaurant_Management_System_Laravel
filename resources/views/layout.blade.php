@@ -48,7 +48,7 @@
         <div class="container">
                     <nav class="main-nav">
                         <!-- ***** Logo Start ***** -->
-                        <a href="{{url('home')}}" class="logo">
+                        <a href="{{url('/')}}" class="logo">
                             <img width="100px" src="{{ asset('assets/images/logo.png')}}">
                         </a>
                         <!-- ***** Logo End ***** -->
@@ -163,7 +163,7 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="logo">
-                        <a href="{{url('home')}}"><img src="{{ asset('assets/images/logo.png')}}" alt=""></a>
+                        <a href="{{url('/')}}"><img src="{{ asset('assets/images/logo.png')}}" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-xs-12">
